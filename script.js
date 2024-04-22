@@ -8,24 +8,29 @@ function initMap() {
     maxZoom: 19,
   }).addTo(mymap);
 
-  // Tambahkan multiple marker dengan data dummy
-  var markersData = [
-    { lat: -5.796003, lng: 105.569744, label: 'Marker 1' },
-    { lat: -5.850495, lng: 105.67652, label: 'Marker 2' },
-  ];
+  // Memuat data marker dari file JSON
+  fetch('markers.json')
+    .then((response) => response.json())
+    .then((markersData) => {
+      // Tambahkan marker berdasarkan data yang dimuat
+      markersData.forEach(function (data) {
+        var marker = L.marker([data.lat, data.lng]).addTo(mymap);
+        marker.bindPopup('<b>' + data.label + '</b>');
 
-  markersData.forEach(function (data) {
-    var marker = L.marker([data.lat, data.lng]).addTo(mymap);
-    marker.bindPopup('<b>' + data.label + '</b>').openPopup();
+        // Ketika marker diklik, tampilkan nama marker dan data pada dashboard
+        marker.on('click', function (e) {
+          document.getElementById('marker-name').innerHTML =
+            '<strong>Buoy:</strong> ' + data.label;
+          var dummyData = generateDummyData();
+          showData(dummyData);
+          marker.openPopup();
+        });
+      });
+    })
+    .catch((error) => console.error('Error loading markers:', error));
 
-    // Data dummy untuk setiap marker
-    var dummyData = generateDummyData();
-
-    // Ketika marker diklik, tampilkan data pada dashboard
-    marker.on('click', function (e) {
-      showData(dummyData);
-    });
-  });
+  // Panggil fungsi untuk memperbarui data dummy setiap 2 detik
+  setInterval(updateData, 2000);
 }
 
 // Fungsi untuk menghasilkan data dummy
@@ -35,6 +40,12 @@ function generateDummyData() {
     temperature: Math.floor(Math.random() * 40) + 20,
     seaLevel: Math.floor(Math.random() * 100) + 1,
   };
+}
+
+// Fungsi untuk memperbarui data dummy dan tampilkan pada dashboard
+function updateData() {
+  var dummyData = generateDummyData();
+  showData(dummyData);
 }
 
 // Fungsi untuk menampilkan data pada dashboard
