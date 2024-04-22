@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GIS dengan Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      /* Styling for map container */
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sistem Informasi Geografis dengan Leaflet</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Fungsi untuk menginisialisasi peta
+      function initMap() {
+        // Lokasi awal peta
+        var mymap = L.map('map').setView([-7.797068, 110.370529], 12);
+
+        // Tambahkan basemap dari Leaflet
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+        }).addTo(mymap);
+
+        // Tambahkan marker
+        var buoy1 = L.marker([-5.722809, 105.559314]).addTo(mymap);
+        buoy1.bindPopup('<b>TEST 1</b>').openPopup();
+        var buoy2 = L.marker([-5.784477, 105.57304]).addTo(mymap);
+        buoy2.bindPopup('<b>TEST 2</b>').openPopup();
+      }
+      initMap(); // Panggil fungsi inisialisasi peta
+    </script>
+  </body>
+</html>
