@@ -1,0 +1,20 @@
+/* Styling for map container */
+#map {
+  height: 400px;
+  width: 50%;
+  float: left;
+}
+
+/* Styling for dashboard container */
+#dashboard {
+  height: 400px;
+  width: 50%;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Styling for dashboard data */
+.data-item {
+  margin-bottom: 10px;
+}
